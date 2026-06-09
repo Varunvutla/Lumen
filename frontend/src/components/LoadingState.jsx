@@ -15,11 +15,19 @@ export default function LoadingState() {
     const id = setInterval(() => setStage((s) => Math.min(s + 1, STAGES.length - 1)), 1100);
     return () => clearInterval(id);
   }, []);
+  const progress = ((stage + 1) / STAGES.length) * 100;
 
   return (
     <div className="mt-12 grid grid-cols-12 gap-6">
       <div className="col-span-12 md:col-span-4">
         <div className="label">Working</div>
+        <div className="mt-3 h-1 rounded-full bg-ink-200 overflow-hidden">
+          <motion.div
+            className="h-full rounded-full bg-gradient-to-r from-forest-500 to-coral-500"
+            animate={{ width: `${progress}%` }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+          />
+        </div>
         <div className="mt-3 space-y-2">
           {STAGES.map((s, i) => {
             const active = i === stage;

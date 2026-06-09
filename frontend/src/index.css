@@ -91,6 +91,52 @@ body {
   transition: background-color var(--theme-ease), color var(--theme-ease);
 }
 
+@keyframes background-drift {
+  0% {
+    background-position: 0 0, 0 0, 0 0;
+  }
+  100% {
+    background-position: 42px -28px, -36px 22px, 240px 240px;
+  }
+}
+
+@keyframes rail-scan {
+  0% {
+    transform: translateX(-18%) skewX(-12deg);
+    opacity: 0.24;
+  }
+  45% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(18%) skewX(-12deg);
+    opacity: 0.24;
+  }
+}
+
+@keyframes button-sheen {
+  0% {
+    transform: translateX(-140%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(140%) skewX(-18deg);
+  }
+}
+
+@keyframes soft-blink {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+body {
+  animation: background-drift 18s ease-in-out infinite alternate;
+}
+
 ::selection {
   color: rgb(var(--paper-50));
   background: rgb(var(--forest-500));
@@ -105,6 +151,28 @@ body {
   position: relative;
   isolation: isolate;
   overflow-x: hidden;
+}
+
+.app-shell::before,
+.app-shell::after {
+  content: "";
+  position: fixed;
+  inset: auto -12vw;
+  z-index: -1;
+  pointer-events: none;
+  border-top: 1px solid rgb(var(--forest-300) / 0.14);
+  transform: skewX(-12deg);
+}
+
+.app-shell::before {
+  top: 18vh;
+  animation: rail-scan 8s ease-in-out infinite alternate;
+}
+
+.app-shell::after {
+  bottom: 18vh;
+  border-top-color: rgb(var(--coral-400) / 0.14);
+  animation: rail-scan 10s ease-in-out infinite alternate-reverse;
 }
 
 /* Reusable bits */
@@ -133,10 +201,24 @@ body {
   @apply inline-flex items-center justify-center gap-2 rounded-full bg-ink-800 text-paper-50
          px-5 py-2.5 text-sm font-medium hover:bg-forest-600 transition disabled:opacity-50
          disabled:cursor-not-allowed shadow-soft active:translate-y-0;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn-primary:not(:disabled):hover {
   transform: translateY(-1px);
+}
+
+.btn-primary:not(:disabled)::after {
+  content: "";
+  position: absolute;
+  inset: -60% -35%;
+  background: linear-gradient(90deg, transparent, rgb(var(--paper-50) / 0.22), transparent);
+  transform: translateX(-140%) skewX(-18deg);
+}
+
+.btn-primary:not(:disabled):hover::after {
+  animation: button-sheen 0.72s ease;
 }
 
 .btn-ghost {
@@ -148,6 +230,10 @@ body {
   @apply inline-flex items-center gap-1.5 rounded-full border border-ink-200/80 bg-paper-50
          px-3 py-1.5 text-[13px] text-ink-600 hover:border-ink-400 hover:text-ink-800
          transition active:scale-[0.98];
+}
+
+.chip:hover {
+  box-shadow: 0 10px 26px -22px rgb(var(--ink-900) / 0.62);
 }
 
 .shimmer {
@@ -207,6 +293,27 @@ body {
 .theme-toggle__icon.is-active {
   color: rgb(var(--paper-50));
   transform: scale(1.04);
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgb(var(--forest-500));
+  box-shadow: 0 0 0 4px rgb(var(--forest-500) / 0.12);
+  animation: soft-blink 1.6s ease-in-out infinite;
+}
+
+.motion-underline {
+  background-image: linear-gradient(90deg, rgb(var(--forest-500)), rgb(var(--coral-500)));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 2px;
+  transition: background-size var(--theme-ease);
+}
+
+.motion-underline:hover {
+  background-size: 100% 2px;
 }
 
 .modal-overlay {

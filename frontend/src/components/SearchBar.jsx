@@ -32,12 +32,20 @@ export default function SearchBar({ onSubmit, loading, value, onChange, locked, 
       <motion.div
         whileHover={{ y: -2 }}
         transition={{ duration: 0.18 }}
-        className="card shadow-soft px-2 sm:px-3 py-2 flex items-center gap-2 focus-within:border-forest-300 focus-within:shadow-lift"
+        className="card group/search relative overflow-hidden shadow-soft px-2 sm:px-3 py-2 flex items-center gap-2 focus-within:border-forest-300 focus-within:shadow-lift"
       >
-        <span className="hidden sm:flex items-center justify-center w-9 h-9 font-mono text-[11px] text-ink-400">
+        <motion.span
+          className="hidden sm:flex items-center justify-center w-9 h-9 font-mono text-[11px] text-ink-400"
+          animate={{ y: [0, -1, 0] }}
+          transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+        >
           01
-        </span>
+        </motion.span>
         <span className="hidden sm:block w-px h-6 bg-ink-200" />
+        <span
+          className="absolute inset-x-8 bottom-0 h-px origin-left scale-x-0 bg-gradient-to-r from-forest-500 via-coral-500 to-forest-500 transition-transform duration-500 group-focus-within/search:scale-x-100"
+          aria-hidden="true"
+        />
         <input
           autoFocus
           value={value}
@@ -69,7 +77,12 @@ export default function SearchBar({ onSubmit, loading, value, onChange, locked, 
           <SlidersHorizontal className="w-4 h-4" />
           <span>Options</span>
         </button>
-        <button type="submit" disabled={loading || (!locked && !value.trim())} className="btn-primary">
+        <motion.button
+          type="submit"
+          disabled={loading || (!locked && !value.trim())}
+          className="btn-primary"
+          whileTap={{ scale: 0.98 }}
+        >
           {loading ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -78,10 +91,15 @@ export default function SearchBar({ onSubmit, loading, value, onChange, locked, 
           ) : (
             <>
               Recommend
-              <ArrowRight className="w-4 h-4" />
+              <motion.span
+                animate={{ x: value.trim() && !locked ? [0, 3, 0] : 0 }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ArrowRight className="w-4 h-4" />
+              </motion.span>
             </>
           )}
-        </button>
+        </motion.button>
       </motion.div>
 
       <AnimatePresence>

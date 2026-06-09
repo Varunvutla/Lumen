@@ -40,12 +40,21 @@ export default function ProductCard({ rec, index, selected, onToggleCompare, onO
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 18, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.35, delay: index * 0.05 }}
       whileHover={{ y: -6 }}
-      className="card shadow-soft hover:shadow-lift transition overflow-hidden flex flex-col"
+      className="card group/card relative shadow-soft hover:shadow-lift transition overflow-hidden flex flex-col"
     >
+      <motion.span
+        className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-forest-500 via-coral-500 to-forest-500"
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.55, delay: index * 0.04, ease: "easeOut" }}
+        style={{ transformOrigin: "left" }}
+        aria-hidden="true"
+      />
       <a
         href={url}
         target="_blank"
@@ -64,6 +73,10 @@ export default function ProductCard({ rec, index, selected, onToggleCompare, onO
         ) : (
           <FallbackThumb source={source} />
         )}
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-ink-900/20 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
+          aria-hidden="true"
+        />
 
         <div className="absolute top-3 left-3 inline-flex items-center gap-1.5">
           <span className="font-mono text-[11px] tabular-nums px-2 py-0.5 bg-paper-50/95 border border-ink-200 rounded-full text-ink-700">
@@ -140,7 +153,14 @@ export default function ProductCard({ rec, index, selected, onToggleCompare, onO
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-sm font-medium text-ink-800 hover:text-forest-600"
           >
-            Open <ArrowUpRight className="w-4 h-4" />
+            Open
+            <motion.span
+              className="inline-flex"
+              animate={{ x: [0, 2, 0], y: [0, -2, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <ArrowUpRight className="w-4 h-4" />
+            </motion.span>
           </a>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { BellRing, Cpu, Globe, History, Layers, Moon, Sun, UserCircle } from "lucide-react";
 
 export default function TopBar({
@@ -23,7 +23,13 @@ export default function TopBar({
     >
       <div className="max-w-6xl mx-auto flex items-center gap-4">
         <div className="flex items-center gap-2">
-          <img src="/lumen-logo.svg" alt="LuMen" className="w-10 h-10 rounded-xl border border-ink-200 bg-paper-50 shadow-soft" />
+          <motion.img
+            src="/lumen-logo.svg"
+            alt="LuMen"
+            className="w-10 h-10 rounded-xl border border-ink-200 bg-paper-50 shadow-soft"
+            whileHover={{ rotate: -2, scale: 1.04 }}
+            transition={{ type: "spring", stiffness: 260, damping: 18 }}
+          />
           <div className="leading-tight">
             <span className="font-display text-xl sm:text-2xl leading-none">
               <span className="text-ink-800">Lu</span><span className="text-forest-500">M</span><span className="text-coral-500">en</span>
@@ -34,19 +40,30 @@ export default function TopBar({
 
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
           {providers?.llm && (
-            <span className="hidden md:inline-flex items-center gap-1.5 chip" title="LLM provider">
+            <motion.span
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="hidden md:inline-flex items-center gap-1.5 chip"
+              title="LLM provider"
+            >
+              <span className="live-dot" aria-hidden="true" />
               <Cpu className="w-3.5 h-3.5" />
               <span className="font-mono text-[11px]">
                 {providers.llm}
                 {providers.llm_model ? `/${providers.llm_model.split("/").pop()}` : ""}
               </span>
-            </span>
+            </motion.span>
           )}
           {providers?.search && (
-            <span className="hidden md:inline-flex items-center gap-1.5 chip" title="Search provider">
+            <motion.span
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="hidden md:inline-flex items-center gap-1.5 chip"
+              title="Search provider"
+            >
               <Globe className="w-3.5 h-3.5" />
               <span className="font-mono text-[11px]">{providers.search}</span>
-            </span>
+            </motion.span>
           )}
 
           <ThemeToggle theme={theme} onToggle={onToggleTheme} />
@@ -61,11 +78,18 @@ export default function TopBar({
           >
             <Layers className="w-4 h-4" />
             <span className="hidden sm:inline">Compare</span>
-            {compareCount > 0 && (
-              <span className="ml-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-coral-500 text-paper-50 text-[10px] font-medium">
-                {compareCount}
-              </span>
-            )}
+            <AnimatePresence>
+              {compareCount > 0 && (
+                <motion.span
+                  initial={{ scale: 0.6, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.6, opacity: 0 }}
+                  className="ml-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-coral-500 text-paper-50 text-[10px] font-medium"
+                >
+                  {compareCount}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
 
           <button
@@ -75,11 +99,18 @@ export default function TopBar({
           >
             <BellRing className="w-4 h-4" />
             <span className="hidden sm:inline">Trackify</span>
-            {trackifyCount > 0 && (
-              <span className="ml-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-forest-500 text-paper-50 text-[10px] font-medium">
-                {trackifyCount}
-              </span>
-            )}
+            <AnimatePresence>
+              {trackifyCount > 0 && (
+                <motion.span
+                  initial={{ scale: 0.6, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.6, opacity: 0 }}
+                  className="ml-1 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-forest-500 text-paper-50 text-[10px] font-medium"
+                >
+                  {trackifyCount}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
 
           <button
