@@ -91,29 +91,6 @@ body {
   transition: background-color var(--theme-ease), color var(--theme-ease);
 }
 
-@keyframes background-drift {
-  0% {
-    background-position: 0 0, 0 0, 0 0;
-  }
-  100% {
-    background-position: 42px -28px, -36px 22px, 240px 240px;
-  }
-}
-
-@keyframes rail-scan {
-  0% {
-    transform: translateX(-18%) skewX(-12deg);
-    opacity: 0.24;
-  }
-  45% {
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateX(18%) skewX(-12deg);
-    opacity: 0.24;
-  }
-}
-
 @keyframes button-sheen {
   0% {
     transform: translateX(-140%) skewX(-18deg);
@@ -131,10 +108,6 @@ body {
   50% {
     opacity: 1;
   }
-}
-
-body {
-  animation: background-drift 18s ease-in-out infinite alternate;
 }
 
 ::selection {
@@ -166,13 +139,11 @@ body {
 
 .app-shell::before {
   top: 18vh;
-  animation: rail-scan 8s ease-in-out infinite alternate;
 }
 
 .app-shell::after {
   bottom: 18vh;
   border-top-color: rgb(var(--coral-400) / 0.14);
-  animation: rail-scan 10s ease-in-out infinite alternate-reverse;
 }
 
 /* Reusable bits */

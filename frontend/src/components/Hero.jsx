@@ -18,6 +18,24 @@ const word = {
   show: { opacity: 1, y: 0 },
 };
 
+function FloatingWord({ children, className, direction = -1, delay = 0 }) {
+  return (
+    <motion.span variants={word} className="inline-block">
+      <motion.span
+        className={`inline-block motion-underline ${className}`}
+        animate={{ y: [0, direction * 3, 0] }}
+        whileHover={{ y: direction * 6, rotate: direction }}
+        transition={{
+          y: { duration: 2.8, delay, repeat: Infinity, ease: "easeInOut" },
+          rotate: { type: "spring", stiffness: 260, damping: 18 },
+        }}
+      >
+        {children}
+      </motion.span>
+    </motion.span>
+  );
+}
+
 export default function Hero() {
   return (
     <header className="pt-20 sm:pt-28 pb-10 max-w-5xl">
@@ -45,27 +63,17 @@ export default function Hero() {
         className="mt-8 font-display text-[56px] leading-[0.95] sm:text-[88px] sm:leading-[0.92] text-ink-800"
       >
         <motion.span variants={word} className="inline-block">Tell us what you</motion.span>{" "}
-        <motion.span
-          variants={word}
-          className="inline-block italic text-forest-500 motion-underline"
-          whileHover={{ y: -5, rotate: -1 }}
-          transition={{ type: "spring", stiffness: 260, damping: 18 }}
-        >
+        <FloatingWord className="italic text-forest-500" direction={-1}>
           need
-        </motion.span>
+        </FloatingWord>
         <motion.span variants={word} className="inline-block">
           .
         </motion.span>
         <br />
         <motion.span variants={word} className="inline-block">We'll bring back the</motion.span>{" "}
-        <motion.span
-          variants={word}
-          className="inline-block italic text-coral-500 motion-underline"
-          whileHover={{ y: -5, rotate: 1 }}
-          transition={{ type: "spring", stiffness: 260, damping: 18 }}
-        >
+        <FloatingWord className="italic text-coral-500" direction={-1} delay={0.35}>
           good stuff
-        </motion.span>
+        </FloatingWord>
         <motion.span variants={word} className="inline-block">
           .
         </motion.span>
