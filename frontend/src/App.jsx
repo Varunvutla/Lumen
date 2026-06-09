@@ -207,7 +207,7 @@ export default function App() {
             onChange={setQuery}
             onSubmit={runQuery}
             loading={loading}
-            locked={!user}
+            locked={authChecked && !user}
             onRequireAuth={requireAuth}
           />
           <ExampleChips
